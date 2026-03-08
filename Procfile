@@ -1,0 +1,1 @@
+web: gunicorn prediction_of_air_pollution.wsgi
