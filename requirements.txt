@@ -1,0 +1,7 @@
+wheel==0.45.1
+Django>=4.2
+gunicorn>=21.2
+pandas
+numpy
+scikit-learn
+wheel
