@@ -15,7 +15,7 @@ SECRET_KEY = 'm+1edl5m-5@u9u!b8-=4-4mq&o1%agco2xpl8c!7sn7!eowjk#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['air-pollution-ml.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -34,13 +34,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 
@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'prediction_of_air_pollution.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -124,11 +124,27 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = [os.path.join(BASE_DIR,'Template/images')]
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'Template/media')
+
+# STATIC_ROOT = '/static/'
+
+# STATIC_URL = '/static/'
+
+# --- STATIC FILES CONFIGURATION ---
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR,'Template/images')]
+
+# Tells Django where your source images/css are
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'Template/images')]
+
+# THE FIX: No leading slash. This stays inside your project folder.
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Media files for any uploads
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'Template/media')
 
-STATIC_ROOT = '/static/'
-
-STATIC_URL = '/static/'
+# Required for Render to serve CSS/Images correctly
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
